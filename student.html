@@ -221,7 +221,15 @@
     return `${yyyy}-${mm}-${dd}`;
   }
   // YYYY-MM-DD -> DD/MM/YYYY
-  const isoToDmy = v => v ? String(v).slice(0,10).split('-').reverse().join('/') : '—';
+  function isoToDmy(v){
+    if (!v) return '—';
+    const s = String(v);
+    const m = /(\d{4})-(\d{2})-(\d{2})/.exec(s);
+    if (m) return `${m[3]}/${m[2]}/${m[1]}`;
+    const d = new Date(s);
+    if (isNaN(d)) return s;
+    return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
+  }
 
   function showError(t){ errorMsg.textContent = t; errorMsg.style.display = 'block'; }
   const val = v => v || '—';
