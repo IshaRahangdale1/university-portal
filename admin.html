@@ -144,6 +144,11 @@
     <h2 id="modalTitle">Add Student</h2>
     <input type="hidden" id="f_id" />
     <div class="field">
+      <label>Student Photo</label>
+      <input id="f_photo" type="file" accept="image/*" />
+      <img id="f_photo_preview" src="" alt="" style="display:none;margin-top:8px;max-width:90px;border-radius:3px;border:1px solid var(--line);" />
+    </div>
+    <div class="field">
       <label>Full Name</label>
       <input id="f_name" type="text" />
     </div>
@@ -346,15 +351,61 @@
     document.getElementById('f_gender').value = student?.gender || '';
     document.getElementById('f_category').value = student?.category || '';
     document.getElementById('f_nationality').value = student?.nationality || '';
+    document.getElementById('f_photo').value = '';
+    const preview = document.getElementById('f_photo_preview');
+    if (student?.photo_url) {
+      preview.src = student.photo_url;
+      preview.style.display = 'block';
+    } else {
+      preview.style.display = 'none';
+    }
     document.getElementById('deleteBtn').style.display = student ? 'inline-block' : 'none';
     overlay.style.display = 'flex';
   }
+  document.getElementById('f_photo').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    const preview = document.getElementById('f_photo_preview');
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    }
+  });
+
   document.getElementById('addBtn').addEventListener('click', () => openModal(null));
   document.getElementById('cancelBtn').addEventListener('click', () => overlay.style.display = 'none');
 
   document.getElementById('saveBtn').addEventListener('click', async () => {
     const id = document.getElementById('f_id').value;
     const errEl = document.getElementById('formError');
+    const saveBtn = document.getElementById('saveBtn');
+    const regForUpload = document.getElementById('f_reg').value.trim();
+
+    // Upload photo first, if a new one was chosen
+    let photoUrl = document.getElementById('f_photo_preview').src || null;
+    if (!document.getElementById('f_photo_preview').style.display || document.getElementById('f_photo_preview').style.display === 'none') {
+      photoUrl = null;
+    }
+    const fileInput = document.getElementById('f_photo');
+    if (fileInput.files && fileInput.files[0]) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Uploading photo…';
+      const file = fileInput.files[0];
+      const ext = file.name.split('.').pop();
+      const path = `${regForUpload || 'student'}-${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from('student-photos')
+        .upload(path, file, { upsert: true });
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save';
+      if (uploadError) {
+        errEl.textContent = 'Photo upload failed: ' + uploadError.message;
+        errEl.style.display = 'block';
+        return;
+      }
+      const { data: pub } = supabase.storage.from('student-photos').getPublicUrl(path);
+      photoUrl = pub.publicUrl;
+    }
+
     const payload = {
       full_name: document.getElementById('f_name').value.trim(),
       registration_number: document.getElementById('f_reg').value.trim(),
@@ -371,6 +422,7 @@
       gender: document.getElementById('f_gender').value || null,
       category: document.getElementById('f_category').value.trim() || null,
       nationality: document.getElementById('f_nationality').value.trim() || null,
+      photo_url: photoUrl,
     };
     if (!payload.full_name || !payload.registration_number || !payload.date_of_birth || !payload.course_name || !payload.academic_year) {
       errEl.textContent = 'Please fill in all required fields.';

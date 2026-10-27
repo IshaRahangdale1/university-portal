@@ -212,6 +212,7 @@
     <div class="msg" id="errorMsg"></div>
 
     <div class="result" id="result">
+      <img id="r_photo" src="" alt="Student photo" style="display:none;width:84px;height:84px;object-fit:cover;border-radius:4px;border:1px solid var(--line);margin-bottom:14px;" />
       <div class="row"><span>Name</span><span id="r_name"></span></div>
       <div class="row"><span>Registration No.</span><span id="r_reg"></span></div>
       <div class="row" id="row_formno"><span>Form No.</span><span id="r_formno"></span></div>
@@ -225,10 +226,6 @@
       <div class="row" id="row_nationality"><span>Nationality</span><span id="r_nationality"></span></div>
       <div class="row"><span>Admission Date</span><span id="r_date"></span></div>
       <div class="row"><span>Status</span><span id="r_status"></span></div>
-      <div class="contact">
-        Questions about your status? Contact the Admissions Office at
-        <strong>admissions@aiu.edu</strong> or call <strong>+91-00000-00000</strong>.
-      </div>
       <span class="again" id="again">Check another registration number</span>
     </div>
   </div>
@@ -302,6 +299,13 @@
       }
 
       const r = data[0];
+      const photoEl = document.getElementById('r_photo');
+      if (r.photo_url) {
+        photoEl.src = r.photo_url;
+        photoEl.style.display = 'block';
+      } else {
+        photoEl.style.display = 'none';
+      }
       document.getElementById('r_name').textContent = r.full_name;
       document.getElementById('r_reg').textContent = r.registration_number;
       document.getElementById('r_course').textContent = r.course_name;
