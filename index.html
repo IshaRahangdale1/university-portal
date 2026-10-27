@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Student Profile :: AIU</title>
+<title>Student Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -17,20 +17,13 @@
     --bg:#ecf0f5;
     --ink:#333;
     --muted:#555;
-    --line:#d9d9d9;
     --err:#b23a2f;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;}
   body{font-family:"Source Sans 3","Open Sans",Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 
-  /* ===== Logo ===== */
-  .logo{display:flex;align-items:center;gap:6px;color:#fff;}
-  .logo svg{width:50px;height:50px;flex:0 0 50px;}
-  .logo .lt{font-family:Arial,sans-serif;font-weight:700;line-height:1;}
-  .logo .lt div{display:flex;align-items:center;gap:3px;font-size:11px;letter-spacing:.2px;margin-bottom:2px;}
-  .logo .lt b{display:inline-block;width:12px;height:12px;line-height:12px;text-align:center;background:#fff;color:var(--navy);font-size:10px;}
-  .logo .lt small{display:block;font-size:5px;font-weight:600;letter-spacing:.1px;margin-top:3px;white-space:nowrap;}
+  .brand-text{color:#fff;font-family:"Open Sans",Arial,sans-serif;font-weight:700;font-size:18px;letter-spacing:.5px;}
 
   /* ===== Login ===== */
   #loginScreen{
@@ -39,10 +32,8 @@
     background:linear-gradient(160deg,#f97316 0%,#8a4a4a 45%,#3b2a7a 100%);
   }
   .lcard{width:100%;max-width:400px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.3);}
-  .lhead{background:var(--gold);color:#fff;text-align:center;padding:30px 20px 18px;position:relative;}
-  .lhead .badge{position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.3);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .lhead{background:var(--gold);color:#fff;text-align:center;padding:30px 20px 24px;}
   .lhead h2{margin:0;font-size:21px;font-weight:700;letter-spacing:1px;line-height:1.3;}
-  .lhead p{margin:8px 0 0;font-size:10px;letter-spacing:1.8px;opacity:.9;}
   .lbody{padding:24px 20px 26px;}
   .lbody label{display:block;font-size:11px;font-weight:700;letter-spacing:.5px;color:#334155;margin-bottom:6px;text-transform:uppercase;}
   .lbody .fw{margin-bottom:18px;}
@@ -57,7 +48,7 @@
   #panel{display:none;min-height:100vh;}
   .top{height:57px;background:var(--orange);display:flex;align-items:center;justify-content:space-between;padding:0;}
   .top .left{display:flex;align-items:center;height:100%;}
-  .top .brand{width:230px;padding:0 10px;}
+  .top .brand{width:230px;padding:0 14px;}
   .burger{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:0 14px;}
   .top .out{color:#fff;font-size:12px;background:none;border:none;cursor:pointer;padding:0 20px;font-family:"Open Sans",Arial,sans-serif;}
   .wrap{display:flex;min-height:calc(100vh - 57px);}
@@ -72,7 +63,7 @@
   .ph h1 small{font-size:12.5px;color:#777;margin-left:6px;}
   .crumb{font-family:"Open Sans",Arial,sans-serif;font-size:10px;color:#444;}
   .crumb span{color:#999;margin:0 4px;}
-  .page{background:#fff;margin:0 15px 20px 0;border-top:3px solid var(--navy-ink);padding:14px 22px 30px;margin-left:0;min-height:300px;}
+  .page{background:#fff;margin:0 15px 20px 0;border-top:3px solid var(--navy-ink);padding:14px 22px 30px;min-height:300px;}
   .page h2.t{margin:8px 0 14px;font-size:20px;font-weight:700;color:#222;display:inline-block;position:relative;padding-bottom:6px;letter-spacing:.3px;text-transform:uppercase;}
   .page h2.t::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:#d8a94a;}
   .page h2.t::before{content:"";position:absolute;left:113px;bottom:-2px;width:32px;height:4px;background:var(--navy-ink);z-index:1;}
@@ -125,9 +116,7 @@
 <div id="loginScreen">
   <div class="lcard">
     <div class="lhead">
-      <div class="badge">AIU</div>
-      <h2>ASIAN INTERNATIONAL<br>UNIVERSITY</h2>
-      <p>CMS STUDENT PORTAL LOGIN</p>
+      <h2>STUDENT PORTAL LOGIN</h2>
     </div>
     <form class="lbody" id="lookupForm" autocomplete="off">
       <div class="fw">
@@ -136,7 +125,7 @@
       </div>
       <div class="fw">
         <label for="dob">Date of Birth</label>
-        <input id="dob" type="text" inputmode="numeric" maxlength="10" placeholder="YYYY-MM-DD" autocomplete="off" required />
+        <input id="dob" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY" autocomplete="off" required />
       </div>
       <button type="submit" class="lbtn" id="submitBtn">SIGN IN TO PORTAL</button>
       <div id="errorMsg"></div>
@@ -148,17 +137,7 @@
 <div id="panel">
   <header class="top">
     <div class="left">
-      <div class="brand">
-        <div class="logo">
-          <svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="24" fill="#fff"/><circle cx="25" cy="25" r="21" fill="none" stroke="#2a1a6e" stroke-width="2"/><circle cx="25" cy="25" r="15" fill="#2a1a6e"/><circle cx="25" cy="25" r="11" fill="none" stroke="#f5b942" stroke-width="1.5"/><path d="M25 15l3 7h-6zM17 28h16l-2 5H19z" fill="#f5b942"/></svg>
-          <div class="lt">
-            <div><b>A</b>ASIAN</div>
-            <div><b>I</b>INTERNATIONAL</div>
-            <div><b>U</b>UNIVERSITY</div>
-            <small>ESTABLISHED UNDER SECTION 2(F) OF UGC ACT, 1956.</small>
-          </div>
-        </div>
-      </div>
+      <div class="brand"><span class="brand-text">Student Portal</span></div>
       <button class="burger" id="burger" aria-label="Menu">&#9776;</button>
     </div>
     <button class="out" id="logout">Logout</button>
@@ -190,6 +169,7 @@
               <tr class="full"><td class="k">Admission Year</td><td class="v vw" colspan="3" id="r_year"></td></tr>
             </table>
             <table class="tbl">
+              <tr><td class="k">University</td><td class="v" colspan="3" id="r_university"></td></tr>
               <tr><td class="k">Registration No.</td><td class="v" id="r_reg"></td><td class="k">Faculty</td><td class="v" id="r_faculty"></td></tr>
               <tr><td class="k">Course Type</td><td class="v" id="r_coursetype"></td><td class="k">Course Name</td><td class="v" id="r_course"></td></tr>
               <tr><td class="k">Status</td><td class="v" colspan="3" id="r_status"></td></tr>
@@ -222,17 +202,36 @@
   const $ = id => document.getElementById(id);
   const form = $('lookupForm'), submitBtn = $('submitBtn'), errorMsg = $('errorMsg');
 
-  // DOB field: always YYYY-MM-DD (auto dashes), same on every device
+  // DOB field: DD/MM/YYYY (auto slashes)
   $('dob').addEventListener('input', e => {
     const d = e.target.value.replace(/\D/g,'').slice(0,8);
-    let out = d.slice(0,4);
-    if (d.length > 4) out += '-' + d.slice(4,6);
-    if (d.length > 6) out += '-' + d.slice(6,8);
+    let out = d.slice(0,2);
+    if (d.length > 2) out += '/' + d.slice(2,4);
+    if (d.length > 4) out += '/' + d.slice(4,8);
     e.target.value = out;
   });
 
+  // DD/MM/YYYY -> YYYY-MM-DD (null if invalid)
+  function dmyToIso(s){
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+    if (!m) return null;
+    const [, dd, mm, yyyy] = m;
+    const dt = new Date(+yyyy, +mm - 1, +dd);
+    if (dt.getFullYear() !== +yyyy || dt.getMonth() !== +mm - 1 || dt.getDate() !== +dd) return null;
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  // YYYY-MM-DD -> DD/MM/YYYY
+  function isoToDmy(v){
+    if (!v) return '—';
+    const s = String(v);
+    const m = /(\d{4})-(\d{2})-(\d{2})/.exec(s);
+    if (m) return `${m[3]}/${m[2]}/${m[1]}`;
+    const d = new Date(s);
+    if (isNaN(d)) return s;
+    return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
+  }
+
   function showError(t){ errorMsg.textContent = t; errorMsg.style.display = 'block'; }
-  const dateOnly = v => v ? String(v).slice(0,10) : '—';
   const val = v => v || '—';
 
   function statusHtml(s){
@@ -265,12 +264,12 @@
     e.preventDefault();
     errorMsg.style.display = 'none';
     const reg = $('reg').value.trim();
-    const dob = $('dob').value.trim();
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(dob)) { showError('Enter date of birth as YYYY-MM-DD, e.g. 2003-01-07.'); return; }
+    const dobIso = dmyToIso($('dob').value.trim());
+    if (!dobIso) { showError('Enter date of birth as DD/MM/YYYY, e.g. 07/01/2003.'); return; }
     submitBtn.disabled = true; submitBtn.textContent = 'CHECKING…';
     try {
       const { data, error } = await supabase.rpc('check_admission_status', {
-        p_registration_number: reg, p_date_of_birth: dob
+        p_registration_number: reg, p_date_of_birth: dobIso
       });
       if (error) {
         showError(error.message && error.message.includes('Too many attempts')
@@ -287,6 +286,7 @@
       else { $('photoBox').style.display = 'none'; }
       $('r_formno').textContent = val(r.form_no);
       $('r_year').textContent = val(r.academic_year);
+      $('r_university').textContent = val(r.university);
       $('r_reg').textContent = val(r.registration_number);
       $('r_faculty').textContent = val(r.faculty);
       $('r_coursetype').textContent = val(r.course_type);
@@ -296,7 +296,7 @@
       $('r_father').textContent = val(r.fathers_name).toUpperCase();
       $('r_gender').textContent = val(r.gender);
       $('r_category').textContent = val(r.category);
-      $('r_dob').textContent = dateOnly(r.date_of_birth || dob);
+      $('r_dob').textContent = isoToDmy(r.date_of_birth || dobIso);
       $('r_nationality').textContent = val(r.nationality);
 
       $('loginScreen').style.display = 'none';
