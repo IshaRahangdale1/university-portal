@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Student Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#f58220;
+    --navy:#2a1a6e;
+    --navy-dark:#1c1050;
+    --navy-ink:#1f2a5c;
+    --gold:#f59e0b;
+    --bg:#ecf0f5;
+    --ink:#333;
+    --muted:#555;
+    --err:#b23a2f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{font-family:"Source Sans 3","Open Sans",Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+  .brand-text{color:#fff;font-family:"Open Sans",Arial,sans-serif;font-weight:700;font-size:18px;letter-spacing:.5px;}
+
+  /* ===== Login ===== */
+  #loginScreen{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;
+    font-family:Inter,Arial,sans-serif;
+    background:linear-gradient(160deg,#f97316 0%,#8a4a4a 45%,#3b2a7a 100%);
+  }
+  .lcard{width:100%;max-width:400px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.3);}
+  .lhead{background:var(--gold);color:#fff;text-align:center;padding:30px 20px 24px;}
+  .lhead h2{margin:0;font-size:21px;font-weight:700;letter-spacing:1px;line-height:1.3;}
+  .lbody{padding:24px 20px 26px;}
+  .lbody label{display:block;font-size:11px;font-weight:700;letter-spacing:.5px;color:#334155;margin-bottom:6px;text-transform:uppercase;}
+  .lbody .fw{margin-bottom:18px;}
+  .lbody input{width:100%;padding:13px 14px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:inherit;font-size:13.5px;color:#1e293b;}
+  .lbody input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,158,11,.2);background:#fff;}
+  .lbtn{width:100%;padding:14px;border:none;border-radius:8px;background:var(--gold);color:#fff;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 6px 14px rgba(245,158,11,.35);}
+  .lbtn:hover{background:#e08e07;}
+  .lbtn:disabled{opacity:.65;cursor:default;}
+  #errorMsg{display:none;margin-top:14px;padding:11px 13px;border-radius:6px;font-size:13px;line-height:1.5;color:var(--err);background:#fdf0ee;border:1px solid #f3cfca;}
+
+  /* ===== Panel ===== */
+  #panel{display:none;min-height:100vh;}
+  .top{height:57px;background:var(--orange);display:flex;align-items:center;justify-content:space-between;padding:0;}
+  .top .left{display:flex;align-items:center;height:100%;}
+  .top .brand{width:230px;padding:0 14px;}
+  .burger{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:0 14px;}
+  .top .out{color:#fff;font-size:12px;background:none;border:none;cursor:pointer;padding:0 20px;font-family:"Open Sans",Arial,sans-serif;}
+  .wrap{display:flex;min-height:calc(100vh - 57px);}
+  .side{width:230px;flex:0 0 230px;background:var(--navy);padding-top:5px;}
+  .side button{display:flex;align-items:center;gap:8px;width:100%;padding:13px 12px;background:none;border:none;color:#fff;font-family:"Open Sans",Arial,sans-serif;font-size:11.5px;text-align:left;cursor:pointer;}
+  .side button svg{width:12px;height:12px;fill:#fff;}
+  .side button.active{background:var(--navy-dark);}
+  .side button:hover{background:var(--navy-dark);}
+  .content{flex:1;min-width:0;}
+  .ph{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid #d2d6de;}
+  .ph h1{margin:0;font-size:20px;font-weight:400;color:#333;}
+  .ph h1 small{font-size:12.5px;color:#777;margin-left:6px;}
+  .crumb{font-family:"Open Sans",Arial,sans-serif;font-size:10px;color:#444;}
+  .crumb span{color:#999;margin:0 4px;}
+  .page{background:#fff;margin:0 15px 20px 0;border-top:3px solid var(--navy-ink);padding:14px 22px 30px;min-height:300px;}
+  .page h2.t{margin:8px 0 14px;font-size:20px;font-weight:700;color:#222;display:inline-block;position:relative;padding-bottom:6px;letter-spacing:.3px;text-transform:uppercase;}
+  .page h2.t::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:#d8a94a;}
+  .page h2.t::before{content:"";position:absolute;left:113px;bottom:-2px;width:32px;height:4px;background:var(--navy-ink);z-index:1;}
+
+  /* profile box */
+  .box{border:1.5px solid #333;border-radius:6px;padding:12px 14px 18px;position:relative;margin-top:6px;font-family:"Open Sans",Arial,sans-serif;}
+  .box h3{margin:0 0 6px;text-align:center;font-size:12px;font-weight:700;color:var(--navy-ink);letter-spacing:.2px;}
+  .box h3.p{margin-top:24px;}
+  .tbl{width:100%;border-collapse:collapse;font-size:9.5px;letter-spacing:.5px;color:#444;}
+  .tbl td{padding:9px 5px;border-top:1px solid #cfcfcf;vertical-align:middle;}
+  .tbl tr:last-child td{border-bottom:1px solid #cfcfcf;}
+  .tbl td.k{width:19%;}
+  .tbl td.v{width:31%;}
+  .tbl td.v::before{content:":";display:inline-block;width:14px;}
+  .tbl.course{width:calc(100% - 100px);}
+  .tbl.course td.vw{width:81%;}
+  .photo{position:absolute;right:14px;top:36px;width:92px;height:122px;padding:3px;background:#fff;border:1px solid #ccc;border-top:2px solid #222;border-right:2px solid #222;box-shadow:0 1px 3px rgba(0,0,0,.15);}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .tbl.course tr.full td.v{width:auto;}
+  .idl{text-align:center;margin-top:30px;font-family:"Open Sans",Arial,sans-serif;font-size:9.5px;}
+  .idl a{color:#3c8dbc;text-decoration:none;cursor:pointer;}
+  .pass{color:#1e7a4c;font-weight:700;}
+  .fail{color:var(--err);font-weight:700;}
+  .pend{color:#a8700f;font-weight:700;}
+  .soon{padding:30px 4px;font-size:14px;color:var(--muted);}
+
+  @media (max-width:760px){
+    .top .brand{width:auto;flex:1;}
+    .side{position:fixed;left:0;top:57px;bottom:0;z-index:20;transform:translateX(-100%);transition:transform .2s;}
+    .side.open{transform:none;}
+    .ph{padding:10px 12px;}
+    .ph h1{font-size:17px;}
+    .crumb{display:none;}
+    .page{margin:0 0 20px;padding:12px 12px 24px;}
+    .box{padding:12px 10px 16px;}
+    .photo{position:static;margin:4px auto 10px;}
+    .tbl,.tbl.course{width:100%;}
+    .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%!important;}
+    .tbl tr{border-top:1px solid #cfcfcf;padding:6px 0;}
+    .tbl td{border:none!important;padding:3px 5px;}
+    .tbl td.k{font-weight:600;color:#222;}
+    .tbl td.v::before{width:12px;}
+    .tbl td.k:empty,.tbl td.v:empty{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="lcard">
+    <div class="lhead">
+      <h2>STUDENT PORTAL LOGIN</h2>
+    </div>
+    <form class="lbody" id="lookupForm" autocomplete="off">
+      <div class="fw">
+        <label for="reg">Student Registration / Login ID</label>
+        <input id="reg" type="text" placeholder="e.g. 219102014104" autocomplete="off" required />
+      </div>
+      <div class="fw">
+        <label for="dob">Date of Birth</label>
+        <input id="dob" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY" autocomplete="off" required />
+      </div>
+      <button type="submit" class="lbtn" id="submitBtn">SIGN IN TO PORTAL</button>
+      <div id="errorMsg"></div>
+    </form>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel">
+  <header class="top">
+    <div class="left">
+      <div class="brand"><span class="brand-text">Student Portal</span></div>
+      <button class="burger" id="burger" aria-label="Menu">&#9776;</button>
+    </div>
+    <button class="out" id="logout">Logout</button>
+  </header>
+
+  <div class="wrap">
+    <aside class="side" id="side">
+      <button data-view="dash"><svg viewBox="0 0 12 12"><path d="M1 11V5l5-4 5 4v6H7V7H5v4z"/></svg>Dashboard</button>
+      <button data-view="profile" class="active"><svg viewBox="0 0 12 12"><path d="M2 1h5l3 3v7H2z"/></svg>Student Profile</button>
+      <button data-view="exam"><svg viewBox="0 0 12 12"><path d="M2 1h5l3 3v7H2z"/></svg>Examination Form</button>
+      <button data-view="qp"><svg viewBox="0 0 12 12"><path d="M2 1h5l3 3v7H2z"/></svg>Question Paper</button>
+      <button data-view="result"><svg viewBox="0 0 12 12"><path d="M2 1h5l3 3v7H2z"/></svg>Result</button>
+    </aside>
+
+    <div class="content">
+      <div class="ph">
+        <h1><span id="phTitle">Student Profile</span> <small>CMS Student Profile</small></h1>
+        <div class="crumb">&#9679; Home <span>&gt;</span> <span style="margin:0;color:#444" id="phCrumb">Student Profile</span></div>
+      </div>
+
+      <div class="page">
+        <div id="v_profile">
+          <h2 class="t">Student Profile</h2>
+          <div class="box">
+            <h3>COURSE/PROGRAME DETAILS :</h3>
+            <div class="photo" id="photoBox" style="display:none;"><img id="r_photo" src="" alt="Student photo" /></div>
+            <table class="tbl course">
+              <tr class="full"><td class="k">Form No.</td><td class="v vw" colspan="3" id="r_formno"></td></tr>
+              <tr class="full"><td class="k">Admission Year</td><td class="v vw" colspan="3" id="r_year"></td></tr>
+            </table>
+            <table class="tbl">
+              <tr><td class="k">University</td><td class="v" colspan="3" id="r_university"></td></tr>
+              <tr><td class="k">Registration No.</td><td class="v" id="r_reg"></td><td class="k">Faculty</td><td class="v" id="r_faculty"></td></tr>
+              <tr><td class="k">Course Type</td><td class="v" id="r_coursetype"></td><td class="k">Course Name</td><td class="v" id="r_course"></td></tr>
+              <tr><td class="k">Status</td><td class="v" colspan="3" id="r_status"></td></tr>
+            </table>
+
+            <h3 class="p">PERSONAL DETAILS</h3>
+            <table class="tbl">
+              <tr><td class="k" style="width:19%">Name (Mr./Ms.)</td><td class="v" colspan="3" id="r_name"></td></tr>
+              <tr><td class="k">Father's Name (Mr.)</td><td class="v" colspan="3" id="r_father"></td></tr>
+              <tr><td class="k">Gender</td><td class="v" id="r_gender"></td><td class="k">Category</td><td class="v" id="r_category"></td></tr>
+              <tr><td class="k">Date of Birth</td><td class="v" id="r_dob"></td><td class="k">Nationality</td><td class="v" id="r_nationality"></td></tr>
+            </table>
+          </div>
+          <div class="idl"><a>Download Id Card</a></div>
+        </div>
+
+        <div id="v_other" class="soon" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
+
+  const SUPABASE_URL = 'https://kifbsigxzeteabccgmoc.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_gDap5xp7TRkdXTHgY6i-vA_jAkdH4-r';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const $ = id => document.getElementById(id);
+  const form = $('lookupForm'), submitBtn = $('submitBtn'), errorMsg = $('errorMsg');
+
+  // DOB field: DD/MM/YYYY (auto slashes)
+  $('dob').addEventListener('input', e => {
+    const d = e.target.value.replace(/\D/g,'').slice(0,8);
+    let out = d.slice(0,2);
+    if (d.length > 2) out += '/' + d.slice(2,4);
+    if (d.length > 4) out += '/' + d.slice(4,8);
+    e.target.value = out;
+  });
+
+  // DD/MM/YYYY -> YYYY-MM-DD (null if invalid)
+  function dmyToIso(s){
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+    if (!m) return null;
+    const [, dd, mm, yyyy] = m;
+    const dt = new Date(+yyyy, +mm - 1, +dd);
+    if (dt.getFullYear() !== +yyyy || dt.getMonth() !== +mm - 1 || dt.getDate() !== +dd) return null;
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  // YYYY-MM-DD -> DD/MM/YYYY
+  const isoToDmy = v => v ? String(v).slice(0,10).split('-').reverse().join('/') : '—';
+
+  function showError(t){ errorMsg.textContent = t; errorMsg.style.display = 'block'; }
+  const val = v => v || '—';
+
+  function statusHtml(s){
+    if (s === 'Approved') return '<span class="pass">Pass</span>';
+    if (s === 'Rejected') return '<span class="fail">Fail</span>';
+    return '<span class="pend">' + (s || 'Pending') + '</span>';
+  }
+
+  const titles = {dash:'Dashboard', profile:'Student Profile', exam:'Examination Form', qp:'Question Paper', result:'Result'};
+  function view(name){
+    document.querySelectorAll('.side button').forEach(b => b.classList.toggle('active', b.dataset.view === name));
+    $('phTitle').textContent = titles[name]; $('phCrumb').textContent = titles[name];
+    $('v_profile').style.display = name === 'profile' ? 'block' : 'none';
+    const o = $('v_other');
+    o.style.display = name === 'profile' ? 'none' : 'block';
+    o.textContent = 'This section is not available yet.';
+    $('side').classList.remove('open');
+  }
+  document.querySelectorAll('.side button').forEach(b => b.addEventListener('click', () => view(b.dataset.view)));
+  $('burger').addEventListener('click', () => $('side').classList.toggle('open'));
+
+  $('logout').addEventListener('click', () => {
+    $('panel').style.display = 'none';
+    $('loginScreen').style.display = 'flex';
+    form.reset();
+    errorMsg.style.display = 'none';
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorMsg.style.display = 'none';
+    const reg = $('reg').value.trim();
+    const dobIso = dmyToIso($('dob').value.trim());
+    if (!dobIso) { showError('Enter date of birth as DD/MM/YYYY, e.g. 07/01/2003.'); return; }
+    submitBtn.disabled = true; submitBtn.textContent = 'CHECKING…';
+    try {
+      const { data, error } = await supabase.rpc('check_admission_status', {
+        p_registration_number: reg, p_date_of_birth: dobIso
+      });
+      if (error) {
+        showError(error.message && error.message.includes('Too many attempts')
+          ? 'Too many attempts. Please wait 15 minutes and try again, or contact the Admissions Office.'
+          : 'Something went wrong. Please try again in a moment.');
+        return;
+      }
+      if (!data || data.length === 0) {
+        showError('Unable to verify your details. Please check your information or contact the college.');
+        return;
+      }
+      const r = data[0];
+      if (r.photo_url) { $('r_photo').src = r.photo_url; $('photoBox').style.display = 'block'; }
+      else { $('photoBox').style.display = 'none'; }
+      $('r_formno').textContent = val(r.form_no);
+      $('r_year').textContent = val(r.academic_year);
+      $('r_university').textContent = val(r.university);
+      $('r_reg').textContent = val(r.registration_number);
+      $('r_faculty').textContent = val(r.faculty);
+      $('r_coursetype').textContent = val(r.course_type);
+      $('r_course').textContent = val(r.course_name);
+      $('r_status').innerHTML = statusHtml(r.admission_status);
+      $('r_name').textContent = val(r.full_name).toUpperCase();
+      $('r_father').textContent = val(r.fathers_name).toUpperCase();
+      $('r_gender').textContent = val(r.gender);
+      $('r_category').textContent = val(r.category);
+      $('r_dob').textContent = isoToDmy(r.date_of_birth || dobIso);
+      $('r_nationality').textContent = val(r.nationality);
+
+      $('loginScreen').style.display = 'none';
+      $('panel').style.display = 'block';
+      view('profile');
+      window.scrollTo(0, 0);
+    } catch (err) {
+      showError('Something went wrong. Please try again in a moment.');
+    } finally {
+      submitBtn.disabled = false; submitBtn.textContent = 'SIGN IN TO PORTAL';
+    }
+  });
+</script>
+</body>
+</html>

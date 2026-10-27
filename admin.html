@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Admin :: AIU</title>
+<title>University Portal :: Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -38,13 +38,7 @@
   .btn-danger{background:#fff;color:var(--bad);border:1px solid var(--bad);padding:10px 16px;font-weight:500;}
   .btn-danger:hover{background:#fdf0ee;}
 
-  /* Logo */
-  .logo{display:flex;align-items:center;gap:6px;color:#fff;}
-  .logo svg{width:50px;height:50px;flex:0 0 50px;}
-  .logo .lt{font-family:Arial,sans-serif;font-weight:700;line-height:1;}
-  .logo .lt div{display:flex;align-items:center;gap:3px;font-size:11px;letter-spacing:.2px;margin-bottom:2px;}
-  .logo .lt b{display:inline-block;width:12px;height:12px;line-height:12px;text-align:center;background:#fff;color:var(--navy);font-size:10px;}
-  .logo .lt small{display:block;font-size:5px;font-weight:600;letter-spacing:.1px;margin-top:3px;white-space:nowrap;}
+  .brand-text{color:#fff;font-family:"Open Sans",Arial,sans-serif;font-weight:700;font-size:18px;letter-spacing:.5px;}
 
   /* Login */
   #loginScreen{
@@ -53,8 +47,7 @@
     background:linear-gradient(160deg,#f97316 0%,#8a4a4a 45%,#3b2a7a 100%);
   }
   .lcard{width:100%;max-width:400px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.3);}
-  .lhead{background:var(--gold);color:#fff;text-align:center;padding:30px 20px 18px;position:relative;}
-  .lhead .badge{position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.3);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .lhead{background:var(--gold);color:#fff;text-align:center;padding:30px 20px 22px;}
   .lhead h2{margin:0;font-size:21px;font-weight:700;letter-spacing:1px;line-height:1.3;}
   .lhead p{margin:8px 0 0;font-size:10px;letter-spacing:1.8px;opacity:.9;}
   .lbody{padding:24px 20px 26px;}
@@ -67,7 +60,7 @@
   /* Dashboard */
   #dashboard{display:none;}
   .top{height:57px;background:var(--orange);display:flex;align-items:center;justify-content:space-between;}
-  .top .brand{padding:0 10px;}
+  .top .brand{padding:0 14px;}
   .top .out{color:#fff;font-size:12px;background:none;padding:0 20px;font-family:"Open Sans",Arial,sans-serif;}
   .wrap{display:flex;min-height:calc(100vh - 57px);}
   .side{width:230px;flex:0 0 230px;background:var(--navy);padding-top:5px;}
@@ -111,7 +104,6 @@
     .ph h1 small,.crumb{display:none;}
     .page{margin:0;padding:12px 12px 30px;border-radius:0;}
     input,select{font-size:16px;min-height:46px;}
-    input[type=date]{-webkit-appearance:none;appearance:none;text-align:left;}
     .grid2{grid-template-columns:1fr;gap:0;}
     .toolbar .spacer{display:none;}
     .toolbar input[type=text]{max-width:none;flex:1 1 100%;}
@@ -152,9 +144,8 @@
 <div id="loginScreen">
   <div class="lcard">
     <div class="lhead">
-      <div class="badge">AIU</div>
-      <h2>ASIAN INTERNATIONAL<br>UNIVERSITY</h2>
-      <p>CMS ADMIN LOGIN</p>
+      <h2>UNIVERSITY PORTAL</h2>
+      <p>ADMIN LOGIN</p>
     </div>
     <div class="lbody">
       <div class="field">
@@ -174,17 +165,7 @@
 <!-- DASHBOARD -->
 <div id="dashboard">
   <header class="top">
-    <div class="brand">
-      <div class="logo">
-        <svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="24" fill="#fff"/><circle cx="25" cy="25" r="21" fill="none" stroke="#2a1a6e" stroke-width="2"/><circle cx="25" cy="25" r="15" fill="#2a1a6e"/><circle cx="25" cy="25" r="11" fill="none" stroke="#f5b942" stroke-width="1.5"/><path d="M25 15l3 7h-6zM17 28h16l-2 5H19z" fill="#f5b942"/></svg>
-        <div class="lt">
-          <div><b>A</b>ASIAN</div>
-          <div><b>I</b>INTERNATIONAL</div>
-          <div><b>U</b>UNIVERSITY</div>
-          <small>ESTABLISHED UNDER SECTION 2(F) OF UGC ACT, 1956.</small>
-        </div>
-      </div>
-    </div>
+    <div class="brand"><span class="brand-text">University Portal</span></div>
     <button class="out" id="logoutBtn">Logout</button>
   </header>
 
@@ -228,12 +209,13 @@
       <div class="field"><label>Full Name</label><input id="f_name" type="text" /></div>
       <div class="grid2">
         <div class="field"><label>Registration Number</label><input id="f_reg" type="text" /></div>
-        <div class="field"><label>Date of Birth</label><input id="f_dob" type="date" /></div>
+        <div class="field"><label>Date of Birth</label><input id="f_dob" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY" autocomplete="off" /></div>
       </div>
       <div class="grid2">
         <div class="field"><label>Form No.</label><input id="f_formno" type="text" /></div>
         <div class="field"><label>Father's Name</label><input id="f_father" type="text" /></div>
       </div>
+      <div class="field"><label>University</label><input id="f_university" type="text" placeholder="e.g. Asian International University" /></div>
       <div class="grid2">
         <div class="field"><label>Faculty</label><input id="f_faculty" type="text" placeholder="e.g. Faculty of Commerce and Management" /></div>
         <div class="field"><label>Course Type</label><input id="f_coursetype" type="text" placeholder="e.g. Under Graduate" /></div>
@@ -254,8 +236,8 @@
         </div>
         <div class="field"><label>Category</label><input id="f_category" type="text" placeholder="e.g. General" /></div>
       </div>
-      <div class="field"><label>Nationality</label><input id="f_nationality" type="text" placeholder="e.g. Indian" /></div>
       <div class="grid2">
+        <div class="field"><label>Nationality</label><input id="f_nationality" type="text" placeholder="e.g. Indian" /></div>
         <div class="field">
           <label>Status</label>
           <select id="f_status">
@@ -264,9 +246,7 @@
             <option value="Rejected">Fail</option>
           </select>
         </div>
-        <div class="field"><label>Admission Date</label><input id="f_admdate" type="date" /></div>
       </div>
-      <div class="field"><label>Student Email (optional)</label><input id="f_email" type="email" /></div>
       <div id="formError"></div>
     </div>
     <div class="modal-actions">
@@ -287,6 +267,24 @@
   const loginScreen = document.getElementById('loginScreen');
   const dashboard = document.getElementById('dashboard');
   let allStudents = [];
+
+  // ---- DATE HELPERS (DD/MM/YYYY <-> YYYY-MM-DD) ----
+  const isoToDmy = v => v ? String(v).slice(0,10).split('-').reverse().join('/') : '';
+  function dmyToIso(s){
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+    if (!m) return null;
+    const [, dd, mm, yyyy] = m;
+    const dt = new Date(+yyyy, +mm - 1, +dd);
+    if (dt.getFullYear() !== +yyyy || dt.getMonth() !== +mm - 1 || dt.getDate() !== +dd) return null;
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  document.getElementById('f_dob').addEventListener('input', e => {
+    const d = e.target.value.replace(/\D/g,'').slice(0,8);
+    let out = d.slice(0,2);
+    if (d.length > 2) out += '/' + d.slice(2,4);
+    if (d.length > 4) out += '/' + d.slice(4,8);
+    e.target.value = out;
+  });
 
   // ---- AUTH ----
   async function checkSession(){
@@ -382,12 +380,11 @@
     document.getElementById('f_id').value = student?.id || '';
     document.getElementById('f_name').value = student?.full_name || '';
     document.getElementById('f_reg').value = student?.registration_number || '';
-    document.getElementById('f_dob').value = student?.date_of_birth || '';
+    document.getElementById('f_dob').value = isoToDmy(student?.date_of_birth);
+    document.getElementById('f_university').value = student?.university || '';
     document.getElementById('f_course').value = student?.course_name || '';
     document.getElementById('f_year').value = student?.academic_year || '';
     document.getElementById('f_status').value = student?.admission_status || 'Pending';
-    document.getElementById('f_admdate').value = student?.admission_date || '';
-    document.getElementById('f_email').value = student?.email || '';
     document.getElementById('f_formno').value = student?.form_no || '';
     document.getElementById('f_faculty').value = student?.faculty || '';
     document.getElementById('f_coursetype').value = student?.course_type || '';
@@ -423,6 +420,14 @@
     const errEl = document.getElementById('formError');
     const saveBtn = document.getElementById('saveBtn');
     const regForUpload = document.getElementById('f_reg').value.trim();
+    errEl.style.display = 'none';
+
+    const dobIso = dmyToIso(document.getElementById('f_dob').value.trim());
+    if (!dobIso) {
+      errEl.textContent = 'Enter a valid Date of Birth as DD/MM/YYYY.';
+      errEl.style.display = 'block';
+      return;
+    }
 
     let photoUrl = document.getElementById('f_photo_preview').src || null;
     if (!document.getElementById('f_photo_preview').style.display || document.getElementById('f_photo_preview').style.display === 'none') {
@@ -452,12 +457,11 @@
     const payload = {
       full_name: document.getElementById('f_name').value.trim(),
       registration_number: document.getElementById('f_reg').value.trim(),
-      date_of_birth: document.getElementById('f_dob').value,
+      date_of_birth: dobIso,
+      university: document.getElementById('f_university').value.trim() || null,
       course_name: document.getElementById('f_course').value.trim(),
       academic_year: document.getElementById('f_year').value.trim(),
       admission_status: document.getElementById('f_status').value,
-      admission_date: document.getElementById('f_admdate').value || null,
-      email: document.getElementById('f_email').value.trim() || null,
       form_no: document.getElementById('f_formno').value.trim() || null,
       faculty: document.getElementById('f_faculty').value.trim() || null,
       course_type: document.getElementById('f_coursetype').value.trim() || null,
@@ -467,7 +471,7 @@
       nationality: document.getElementById('f_nationality').value.trim() || null,
       photo_url: photoUrl,
     };
-    if (!payload.full_name || !payload.registration_number || !payload.date_of_birth || !payload.course_name || !payload.academic_year) {
+    if (!payload.full_name || !payload.registration_number || !payload.course_name || !payload.academic_year) {
       errEl.textContent = 'Please fill in all required fields.';
       errEl.style.display = 'block';
       return;
