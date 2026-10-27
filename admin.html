@@ -159,6 +159,26 @@
     </div>
     <div class="grid2">
       <div class="field">
+        <label>Form No.</label>
+        <input id="f_formno" type="text" />
+      </div>
+      <div class="field">
+        <label>Father's Name</label>
+        <input id="f_father" type="text" />
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Faculty</label>
+        <input id="f_faculty" type="text" placeholder="e.g. Faculty of Commerce and Management" />
+      </div>
+      <div class="field">
+        <label>Course Type</label>
+        <input id="f_coursetype" type="text" placeholder="e.g. Under Graduate" />
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
         <label>Course Name</label>
         <input id="f_course" type="text" />
       </div>
@@ -166,6 +186,25 @@
         <label>Academic Year</label>
         <input id="f_year" type="text" placeholder="e.g. 2024-25" />
       </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Gender</label>
+        <select id="f_gender">
+          <option value="">—</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <input id="f_category" type="text" placeholder="e.g. General" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Nationality</label>
+      <input id="f_nationality" type="text" placeholder="e.g. Indian" />
     </div>
     <div class="grid2">
       <div class="field">
@@ -300,6 +339,13 @@
     document.getElementById('f_status').value = student?.admission_status || 'Pending';
     document.getElementById('f_admdate').value = student?.admission_date || '';
     document.getElementById('f_email').value = student?.email || '';
+    document.getElementById('f_formno').value = student?.form_no || '';
+    document.getElementById('f_faculty').value = student?.faculty || '';
+    document.getElementById('f_coursetype').value = student?.course_type || '';
+    document.getElementById('f_father').value = student?.fathers_name || '';
+    document.getElementById('f_gender').value = student?.gender || '';
+    document.getElementById('f_category').value = student?.category || '';
+    document.getElementById('f_nationality').value = student?.nationality || '';
     document.getElementById('deleteBtn').style.display = student ? 'inline-block' : 'none';
     overlay.style.display = 'flex';
   }
@@ -318,6 +364,13 @@
       admission_status: document.getElementById('f_status').value,
       admission_date: document.getElementById('f_admdate').value || null,
       email: document.getElementById('f_email').value.trim() || null,
+      form_no: document.getElementById('f_formno').value.trim() || null,
+      faculty: document.getElementById('f_faculty').value.trim() || null,
+      course_type: document.getElementById('f_coursetype').value.trim() || null,
+      fathers_name: document.getElementById('f_father').value.trim() || null,
+      gender: document.getElementById('f_gender').value || null,
+      category: document.getElementById('f_category').value.trim() || null,
+      nationality: document.getElementById('f_nationality').value.trim() || null,
     };
     if (!payload.full_name || !payload.registration_number || !payload.date_of_birth || !payload.course_name || !payload.academic_year) {
       errEl.textContent = 'Please fill in all required fields.';

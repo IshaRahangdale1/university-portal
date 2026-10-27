@@ -214,8 +214,15 @@
     <div class="result" id="result">
       <div class="row"><span>Name</span><span id="r_name"></span></div>
       <div class="row"><span>Registration No.</span><span id="r_reg"></span></div>
+      <div class="row" id="row_formno"><span>Form No.</span><span id="r_formno"></span></div>
+      <div class="row" id="row_father"><span>Father's Name</span><span id="r_father"></span></div>
+      <div class="row" id="row_faculty"><span>Faculty</span><span id="r_faculty"></span></div>
+      <div class="row" id="row_coursetype"><span>Course Type</span><span id="r_coursetype"></span></div>
       <div class="row"><span>Course</span><span id="r_course"></span></div>
       <div class="row"><span>Academic Year</span><span id="r_year"></span></div>
+      <div class="row" id="row_gender"><span>Gender</span><span id="r_gender"></span></div>
+      <div class="row" id="row_category"><span>Category</span><span id="r_category"></span></div>
+      <div class="row" id="row_nationality"><span>Nationality</span><span id="r_nationality"></span></div>
       <div class="row"><span>Admission Date</span><span id="r_date"></span></div>
       <div class="row"><span>Status</span><span id="r_status"></span></div>
       <div class="contact">
@@ -246,6 +253,16 @@
     errorMsg.classList.add('error');
     resultEl.style.display = 'none';
     form.style.display = 'block';
+  }
+
+  function setOptionalRow(rowId, spanId, value){
+    const row = document.getElementById(rowId);
+    if (value) {
+      document.getElementById(spanId).textContent = value;
+      row.style.display = 'flex';
+    } else {
+      row.style.display = 'none';
+    }
   }
 
   function statusClass(status){
@@ -290,6 +307,15 @@
       document.getElementById('r_course').textContent = r.course_name;
       document.getElementById('r_year').textContent = r.academic_year;
       document.getElementById('r_date').textContent = r.admission_date || '—';
+
+      // Optional fields: only show the row if the admin filled that field in
+      setOptionalRow('row_formno', 'r_formno', r.form_no);
+      setOptionalRow('row_father', 'r_father', r.fathers_name);
+      setOptionalRow('row_faculty', 'r_faculty', r.faculty);
+      setOptionalRow('row_coursetype', 'r_coursetype', r.course_type);
+      setOptionalRow('row_gender', 'r_gender', r.gender);
+      setOptionalRow('row_category', 'r_category', r.category);
+      setOptionalRow('row_nationality', 'r_nationality', r.nationality);
 
       const pill = document.createElement('span');
       pill.className = 'status-pill ' + statusClass(r.admission_status);
