@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>University Portal — Admission Status</title>
+<style>
+  :root{
+    --navy:#1c1410;
+    --navy-deep:#120d0a;
+    --gold:#d98a2b;
+    --gold-light:#f2b36a;
+    --paper:#faf7f0;
+    --ink:#201a14;
+    --muted:#7a7066;
+    --ok:#1e7a4c;
+    --pending:#a8700f;
+    --bad:#b23a2f;
+    --line:#e9e2d2;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Georgia","Iowan Old Style",serif;
+    background:
+      radial-gradient(1200px 500px at 50% -10%, #3a2616, var(--navy-deep)),
+      var(--navy-deep);
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:48px 20px 64px;
+  }
+  .brand{
+    text-align:center;
+    color:#f1ede0;
+    margin-bottom:28px;
+  }
+  .brand .mark{
+    width:52px;height:52px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gold-light),var(--gold));
+    color:var(--navy-deep);
+    font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 14px;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:15px;
+    letter-spacing:0.5px;
+  }
+  .brand h1{
+    font-size:22px;
+    margin:0 0 4px;
+    font-weight:400;
+    letter-spacing:0.3px;
+  }
+  .brand p{
+    margin:0;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:12.5px;
+    letter-spacing:1.5px;
+    color:#d9c7b2;
+  }
+
+  .card{
+    width:100%;
+    max-width:420px;
+    background:var(--paper);
+    border-radius:6px;
+    border:1px solid var(--line);
+    box-shadow:0 30px 70px rgba(0,0,0,0.45), 0 0 0 1px rgba(217,138,43,0.08);
+    overflow:hidden;
+  }
+  .card-head{
+    padding:24px 28px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .card-head h2{
+    margin:0 0 4px;
+    font-size:19px;
+    font-weight:400;
+  }
+  .card-head p{
+    margin:0;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.5;
+  }
+  form{padding:24px 28px 8px;}
+  label{
+    display:block;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:11.5px;
+    letter-spacing:0.6px;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  .field{margin-bottom:18px;}
+  input{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid #cfc9ba;
+    border-radius:3px;
+    font-size:15px;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    background:#fff;
+    color:var(--ink);
+  }
+  input:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,151,46,0.18);
+  }
+  button{
+    width:100%;
+    padding:13px;
+    background:linear-gradient(135deg, var(--gold-light), var(--gold));
+    color:#2a1a08;
+    border:none;
+    border-radius:3px;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.4px;
+    cursor:pointer;
+    margin:6px 0 24px;
+    box-shadow:0 6px 16px rgba(217,138,43,0.35);
+  }
+  button:hover{background:linear-gradient(135deg, #e8a04f, #c87c23);}
+  button:disabled{opacity:0.6;cursor:default;}
+
+  .msg{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:13.5px;
+    padding:12px 28px 20px;
+    line-height:1.5;
+    display:none;
+  }
+  .msg.error{color:var(--bad);display:block;}
+
+  .result{display:none;padding:4px 28px 28px;}
+  .result .row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:13.5px;
+  }
+  .result .row:last-of-type{border-bottom:none;}
+  .result .row span:first-child{color:var(--muted);}
+  .result .row span:last-child{font-weight:600;text-align:right;}
+  .status-pill{
+    display:inline-block;
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:12px;
+    letter-spacing:0.3px;
+  }
+  .status-pill.approved{background:#e4f3eb;color:var(--ok);}
+  .status-pill.pending{background:#fbeed9;color:var(--pending);}
+  .status-pill.rejected{background:#f7e4e1;color:var(--bad);}
+
+  .contact{
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px dashed var(--line);
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:12.5px;
+    color:var(--muted);
+    line-height:1.6;
+  }
+  .again{
+    display:block;
+    text-align:center;
+    margin-top:4px;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:12.5px;
+    color:var(--gold);
+    cursor:pointer;
+    text-decoration:underline;
+  }
+</style>
+</head>
+<body>
+
+  <div class="brand">
+    <h1>University Portal</h1>
+    <p>ADMISSION STATUS CHECK</p>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h2>Check your admission status</h2>
+      <p>Enter the registration number and date of birth you used when applying.</p>
+    </div>
+
+    <form id="lookupForm">
+      <div class="field">
+        <label for="reg">Registration Number</label>
+        <input id="reg" type="text" placeholder="e.g. 219102014999" autocomplete="off" required />
+      </div>
+      <div class="field">
+        <label for="dob">Date of Birth</label>
+        <input id="dob" type="date" required />
+      </div>
+      <button type="submit" id="submitBtn">Check Admission Status</button>
+    </form>
+
+    <div class="msg" id="errorMsg"></div>
+
+    <div class="result" id="result">
+      <div class="row"><span>Name</span><span id="r_name"></span></div>
+      <div class="row"><span>Registration No.</span><span id="r_reg"></span></div>
+      <div class="row"><span>Course</span><span id="r_course"></span></div>
+      <div class="row"><span>Academic Year</span><span id="r_year"></span></div>
+      <div class="row"><span>Admission Date</span><span id="r_date"></span></div>
+      <div class="row"><span>Status</span><span id="r_status"></span></div>
+      <div class="contact">
+        Questions about your status? Contact the Admissions Office at
+        <strong>admissions@aiu.edu</strong> or call <strong>+91-00000-00000</strong>.
+      </div>
+      <span class="again" id="again">Check another registration number</span>
+    </div>
+  </div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
+
+  // ===== CONFIGURE THESE TWO VALUES after you create your Supabase project =====
+  const SUPABASE_URL = 'https://kifbsigxzeteabccgmoc.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_gDap5xp7TRkdXTHgY6i-vA_jAkdH4-r';
+  // ===============================================================================
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.getElementById('lookupForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const resultEl = document.getElementById('result');
+
+  function showError(text){
+    errorMsg.textContent = text;
+    errorMsg.classList.add('error');
+    resultEl.style.display = 'none';
+    form.style.display = 'block';
+  }
+
+  function statusClass(status){
+    if(status === 'Approved') return 'approved';
+    if(status === 'Rejected') return 'rejected';
+    return 'pending';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorMsg.classList.remove('error');
+    errorMsg.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Checking…';
+
+    const reg = document.getElementById('reg').value.trim();
+    const dob = document.getElementById('dob').value;
+
+    try {
+      const { data, error } = await supabase.rpc('check_admission_status', {
+        p_registration_number: reg,
+        p_date_of_birth: dob
+      });
+
+      if (error) {
+        if (error.message && error.message.includes('Too many attempts')) {
+          showError('Too many attempts. Please wait 15 minutes and try again, or contact the Admissions Office.');
+        } else {
+          showError('Something went wrong. Please try again in a moment.');
+        }
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        showError('Unable to verify your details. Please check your information or contact the college.');
+        return;
+      }
+
+      const r = data[0];
+      document.getElementById('r_name').textContent = r.full_name;
+      document.getElementById('r_reg').textContent = r.registration_number;
+      document.getElementById('r_course').textContent = r.course_name;
+      document.getElementById('r_year').textContent = r.academic_year;
+      document.getElementById('r_date').textContent = r.admission_date || '—';
+
+      const pill = document.createElement('span');
+      pill.className = 'status-pill ' + statusClass(r.admission_status);
+      pill.textContent = r.admission_status;
+      const statusCell = document.getElementById('r_status');
+      statusCell.innerHTML = '';
+      statusCell.appendChild(pill);
+
+      form.style.display = 'none';
+      resultEl.style.display = 'block';
+    } catch (err) {
+      showError('Something went wrong. Please try again in a moment.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Check Admission Status';
+    }
+  });
+
+  document.getElementById('again').addEventListener('click', () => {
+    resultEl.style.display = 'none';
+    form.style.display = 'block';
+    form.reset();
+  });
+</script>
+</body>
+</html>
