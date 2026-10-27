@@ -515,6 +515,19 @@
     row.style.display = 'flex';
   }
 
+  // Show dates in the same format as the date picker on this device
+  // (the login form's date field follows the browser/device language)
+  function fmtDate(v){
+    if (!v) return '—';
+    const s = String(v);
+    const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    const d = m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleDateString(navigator.language || undefined, {
+      day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+  }
+
   function statusClass(status){
     if(status === 'Approved') return 'approved';
     if(status === 'Rejected') return 'rejected';
@@ -564,8 +577,8 @@
       document.getElementById('r_reg').textContent = r.registration_number;
       document.getElementById('r_course').textContent = r.course_name;
       document.getElementById('r_year').textContent = r.academic_year;
-      document.getElementById('r_date').textContent = r.admission_date || '—';
-      document.getElementById('r_dob').textContent = dob;
+      document.getElementById('r_date').textContent = fmtDate(r.admission_date);
+      document.getElementById('r_dob').textContent = fmtDate(r.date_of_birth || dob);
 
       // All fields are always shown; empty ones display "—"
       setOptionalRow('row_formno', 'r_formno', r.form_no);
