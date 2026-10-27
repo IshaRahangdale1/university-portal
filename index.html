@@ -282,6 +282,14 @@
         return;
       }
       const r = data[0];
+      if (!r.university) {
+        try {
+          const { data: u } = await supabase.rpc('get_student_university', {
+            p_registration_number: reg, p_date_of_birth: dobIso
+          });
+          if (u) r.university = u;
+        } catch (_) {}
+      }
       if (r.photo_url) { $('r_photo').src = r.photo_url; $('photoBox').style.display = 'block'; }
       else { $('photoBox').style.display = 'none'; }
       $('r_formno').textContent = val(r.form_no);
