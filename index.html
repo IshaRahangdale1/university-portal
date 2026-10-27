@@ -192,7 +192,7 @@
             <table class="tbl">
               <tr><td class="k">Registration No.</td><td class="v" id="r_reg"></td><td class="k">Faculty</td><td class="v" id="r_faculty"></td></tr>
               <tr><td class="k">Course Type</td><td class="v" id="r_coursetype"></td><td class="k">Course Name</td><td class="v" id="r_course"></td></tr>
-              <tr><td class="k">Admission Date</td><td class="v" id="r_date"></td><td class="k">Status</td><td class="v" id="r_status"></td></tr>
+              <tr><td class="k">Status</td><td class="v" colspan="3" id="r_status"></td></tr>
             </table>
 
             <h3 class="p">PERSONAL DETAILS</h3>
@@ -291,7 +291,6 @@
       $('r_faculty').textContent = val(r.faculty);
       $('r_coursetype').textContent = val(r.course_type);
       $('r_course').textContent = val(r.course_name);
-      $('r_date').textContent = dateOnly(r.admission_date);
       $('r_status').innerHTML = statusHtml(r.admission_status);
       $('r_name').textContent = val(r.full_name).toUpperCase();
       $('r_father').textContent = val(r.fathers_name).toUpperCase();
