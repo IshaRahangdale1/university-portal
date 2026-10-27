@@ -3,237 +3,372 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Admin — Admission Portal</title>
+<title>Admin — University Portal</title>
 <style>
   :root{
-    --navy:#1c1410; --navy-deep:#120d0a; --gold:#d98a2b; --gold-light:#f2b36a;
-    --paper:#faf7f0; --ink:#201a14; --muted:#7a7066;
-    --ok:#1e7a4c; --pending:#a8700f; --bad:#b23a2f; --line:#e9e2d2;
+    --orange:#f58220;
+    --orange-dark:#d96a0c;
+    --orange-soft:#fff3e8;
+    --white:#ffffff;
+    --bg:#f4f5f7;
+    --ink:#23262b;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --ok:#1e7a4c;
+    --pending:#a8700f;
+    --bad:#b23a2f;
   }
   *{box-sizing:border-box;}
+  html,body{margin:0;}
   body{
-    margin:0;font-family:"Helvetica Neue",Arial,sans-serif;
-    background:var(--paper);color:var(--ink);min-height:100vh;
+    min-height:100vh;
+    font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
   }
-  /* ---- login screen ---- */
-  #loginScreen{
-    min-height:100vh;display:flex;align-items:center;justify-content:center;
-    background:radial-gradient(1200px 500px at 50% -10%, #3a2616, var(--navy-deep)), var(--navy-deep);
-    padding:20px;
+  label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:6px;
   }
-  .login-card{
-    width:100%;max-width:360px;background:var(--paper);border-radius:6px;
-    padding:32px 28px;box-shadow:0 30px 70px rgba(0,0,0,0.45), 0 0 0 1px rgba(217,138,43,0.08);
-  }
-  .login-card h1{font-size:18px;margin:0 0 6px;}
-  .login-card p{font-size:13px;color:var(--muted);margin:0 0 20px;}
-  label{display:block;font-size:11.5px;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;}
   input,select{
-    width:100%;padding:10px 12px;border:1px solid #cfc9ba;border-radius:3px;
-    font-size:14px;background:#fff;color:var(--ink);font-family:inherit;
+    width:100%;
+    padding:11px 13px;
+    border:1px solid #d1d5db;
+    border-radius:6px;
+    font-size:14.5px;
+    font-family:inherit;
+    background:#fff;
+    color:var(--ink);
+  }
+  input:focus,select:focus{
+    outline:none;
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(245,130,32,0.18);
   }
   .field{margin-bottom:14px;}
-  button{
-    cursor:pointer;border:none;border-radius:3px;font-family:inherit;font-size:13.5px;
-  }
+  button{cursor:pointer;border:none;border-radius:6px;font-family:inherit;font-size:14px;}
   .btn-primary{
-    width:100%;padding:11px;background:linear-gradient(135deg, var(--gold-light), var(--gold));
-    color:#2a1a08;font-weight:600;margin-top:6px;
-    box-shadow:0 6px 16px rgba(217,138,43,0.35);
+    background:var(--orange);color:#fff;font-weight:600;
+    padding:12px 20px;transition:background .15s;
   }
-  .btn-primary:hover{background:linear-gradient(135deg, #e8a04f, #c87c23);}
-  #loginError{color:var(--bad);font-size:12.5px;margin-top:10px;display:none;}
+  .btn-primary:hover{background:var(--orange-dark);}
+  .btn-primary:disabled{opacity:0.65;cursor:default;}
+  .btn-secondary{background:#eef0f3;color:var(--ink);padding:11px 18px;font-weight:500;}
+  .btn-secondary:hover{background:#e3e6ea;}
+  .btn-danger{background:#fff;color:var(--bad);border:1px solid var(--bad);padding:10px 16px;font-weight:500;}
+  .btn-danger:hover{background:#fdf0ee;}
 
-  /* ---- dashboard ---- */
+  /* ---------- Login ---------- */
+  #loginScreen{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  #loginScreen .topbar{flex:0 0 auto;}
+  .login-wrap{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px 16px;
+  }
+  .login-card{
+    width:100%;
+    max-width:400px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:8px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.06);
+    overflow:hidden;
+  }
+  .login-card .head{
+    padding:14px 24px;
+    background:var(--orange-soft);
+    border-bottom:2px solid var(--orange);
+    font-size:13.5px;
+    font-weight:700;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+    color:var(--orange-dark);
+  }
+  .login-card .body{padding:22px 24px 26px;}
+  .login-card p{margin:0 0 18px;font-size:14px;color:var(--muted);}
+  .login-card .btn-primary{width:100%;margin-top:4px;}
+  #loginError{
+    display:none;margin-top:14px;padding:11px 13px;border-radius:6px;
+    font-size:13px;color:var(--bad);background:#fdf0ee;border:1px solid #f3cfca;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background:var(--orange);
+    color:#fff;
+    padding:0 24px;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 2px 8px rgba(0,0,0,0.12);
+  }
+  .topbar .title{font-size:20px;font-weight:600;letter-spacing:0.3px;}
+  .topbar .title small{
+    font-size:12px;font-weight:500;letter-spacing:1.4px;text-transform:uppercase;
+    margin-left:12px;padding:3px 10px;border-radius:20px;
+    background:rgba(255,255,255,0.2);
+  }
+  .topbar button{
+    background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.7);
+    padding:8px 16px;font-weight:500;
+  }
+  .topbar button:hover{background:rgba(255,255,255,0.15);}
+
+  /* ---------- Dashboard ---------- */
   #dashboard{display:none;}
-  header{
-    background:linear-gradient(90deg, var(--navy-deep), var(--navy));
-    color:#f1ede0;padding:16px 28px;
-    display:flex;justify-content:space-between;align-items:center;
-    border-bottom:2px solid var(--gold);
+  .pagehead{background:#fff;border-bottom:1px solid var(--line);}
+  .pagehead .inner{
+    max-width:1100px;margin:0 auto;padding:18px 24px;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
   }
-  header h1{font-size:16px;margin:0;font-weight:500;}
-  header button{background:transparent;color:#e6d9c4;border:1px solid #4a3a28;padding:7px 14px;border-radius:3px;}
-  header button:hover{color:var(--gold-light);border-color:var(--gold);}
+  .pagehead h1{margin:0;font-size:20px;font-weight:500;}
+  .pagehead h1 small{font-size:13px;color:var(--muted);font-weight:400;margin-left:8px;}
+  .crumbs{font-size:12.5px;color:var(--muted);}
+  .crumbs b{color:var(--orange-dark);font-weight:500;}
 
-  main{max-width:1100px;margin:0 auto;padding:28px 20px 60px;}
+  main{max-width:1100px;margin:0 auto;padding:26px 20px 60px;}
 
-  .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;align-items:center;}
-  .toolbar input[type=text]{max-width:280px;}
+  .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}
+  .toolbar input[type=text]{max-width:320px;}
   .toolbar .spacer{flex:1;}
-  .btn-gold{background:linear-gradient(135deg, var(--gold-light), var(--gold));color:#2a1a08;font-weight:600;padding:10px 16px;box-shadow:0 6px 16px rgba(217,138,43,0.3);}
-  .btn-gold:hover{background:linear-gradient(135deg, #e8a04f, #c87c23);}
+  .count{font-size:13px;color:var(--muted);}
 
-  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);font-size:13px;border-radius:4px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
-  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);}
-  th{background:#f2ece0;font-size:11.5px;letter-spacing:0.4px;color:var(--muted);}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:8px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.05);overflow:hidden;
+  }
+  .table-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px;}
+  th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);}
+  th{
+    background:var(--orange-soft);color:var(--orange-dark);
+    font-size:11.5px;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;
+    border-bottom:2px solid var(--orange);
+  }
+  tbody tr:hover{background:#fffaf5;}
   tr:last-child td{border-bottom:none;}
-  .pill{padding:3px 10px;border-radius:20px;font-size:11.5px;}
+  .pill{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600;}
   .pill.approved{background:#e4f3eb;color:var(--ok);}
   .pill.pending{background:#fbeed9;color:var(--pending);}
   .pill.rejected{background:#f7e4e1;color:var(--bad);}
-  .row-actions a{font-size:12px;color:var(--navy);cursor:pointer;text-decoration:underline;margin-right:10px;}
+  .row-actions a{
+    font-size:13px;color:var(--orange-dark);cursor:pointer;font-weight:600;text-decoration:none;
+  }
+  .row-actions a:hover{text-decoration:underline;}
+  .empty{padding:44px;text-align:center;color:var(--muted);font-size:14px;}
 
-  /* ---- modal ---- */
+  /* ---------- Modal ---------- */
   .overlay{
-    display:none;position:fixed;inset:0;background:rgba(10,14,30,0.55);
+    display:none;position:fixed;inset:0;background:rgba(20,14,8,0.55);
     align-items:center;justify-content:center;padding:20px;z-index:10;
   }
   .modal{
-    background:#fff;width:100%;max-width:480px;border-radius:4px;
-    padding:26px 26px 22px;max-height:88vh;overflow-y:auto;
+    background:#fff;width:100%;max-width:560px;border-radius:8px;
+    max-height:90vh;overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 30px 70px rgba(0,0,0,0.35);
   }
-  .modal h2{font-size:16px;margin:0 0 18px;}
+  .modal-head{
+    padding:15px 24px;background:var(--orange);color:#fff;
+    font-size:16px;font-weight:600;
+  }
+  .modal-body{padding:22px 24px 8px;overflow-y:auto;}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;}
-  .btn-secondary{background:#eee;color:var(--ink);padding:9px 16px;}
-  .btn-danger{background:#fff;color:var(--bad);border:1px solid var(--bad);padding:9px 14px;}
-  #formError{color:var(--bad);font-size:12.5px;margin-top:8px;display:none;}
-  .empty{padding:40px;text-align:center;color:var(--muted);font-size:13.5px;}
+  .modal-actions{
+    display:flex;justify-content:flex-end;gap:10px;
+    padding:14px 24px;border-top:1px solid var(--line);background:#fafafa;
+  }
+  #formError{
+    display:none;margin:0 0 14px;padding:11px 13px;border-radius:6px;
+    font-size:13px;color:var(--bad);background:#fdf0ee;border:1px solid #f3cfca;
+  }
+
+  @media (max-width:640px){
+    .topbar{padding:0 14px;height:56px;}
+    .topbar .title{font-size:16px;}
+    .topbar .title small{display:none;}
+    .pagehead .inner{padding:14px 16px;}
+    main{padding:18px 12px 40px;}
+    .grid2{grid-template-columns:1fr;gap:0;}
+    .toolbar input[type=text]{max-width:none;flex:1 1 100%;}
+  }
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="loginScreen">
-  <div class="login-card">
-    <h1>University Portal — Admin</h1>
-    <p>Sign in to manage student records.</p>
-    <div class="field">
-      <label for="loginEmail">Email</label>
-      <input id="loginEmail" type="email" autocomplete="username" />
+  <header class="topbar">
+    <div class="title">University Portal <small>Admin</small></div>
+  </header>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="head">Admin Sign In</div>
+      <div class="body">
+        <p>Sign in to manage student records.</p>
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label for="loginPass">Password</label>
+          <input id="loginPass" type="password" autocomplete="current-password" />
+        </div>
+        <button class="btn-primary" id="loginBtn">Sign in</button>
+        <div id="loginError"></div>
+      </div>
     </div>
-    <div class="field">
-      <label for="loginPass">Password</label>
-      <input id="loginPass" type="password" autocomplete="current-password" />
-    </div>
-    <button class="btn-primary" id="loginBtn">Sign in</button>
-    <div id="loginError"></div>
   </div>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard">
-  <header>
-    <h1>University Portal — Admin</h1>
+  <header class="topbar">
+    <div class="title">University Portal <small>Admin</small></div>
     <button id="logoutBtn">Sign out</button>
   </header>
+
+  <div class="pagehead">
+    <div class="inner">
+      <h1>Student Records <small>Manage admissions</small></h1>
+      <div class="crumbs">Home &nbsp;›&nbsp; <b>Students</b></div>
+    </div>
+  </div>
 
   <main>
     <div class="toolbar">
       <input type="text" id="searchInput" placeholder="Search name or registration no." />
+      <span class="count" id="countLabel"></span>
       <div class="spacer"></div>
-      <button class="btn-gold" id="addBtn">+ Add Student</button>
+      <button class="btn-primary" id="addBtn">+ Add Student</button>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th><th>Reg. No.</th><th>Course</th><th>Year</th><th>Status</th><th></th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    <div class="empty" id="emptyState" style="display:none;">No students yet. Click "Add Student" to begin.</div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th><th>Reg. No.</th><th>Course</th><th>Year</th><th>Status</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="emptyState" style="display:none;">No students yet. Click "Add Student" to begin.</div>
+    </div>
   </main>
 </div>
 
 <!-- ADD/EDIT MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <h2 id="modalTitle">Add Student</h2>
-    <input type="hidden" id="f_id" />
-    <div class="field">
-      <label>Student Photo</label>
-      <input id="f_photo" type="file" accept="image/*" />
-      <img id="f_photo_preview" src="" alt="" style="display:none;margin-top:8px;max-width:90px;border-radius:3px;border:1px solid var(--line);" />
+    <div class="modal-head" id="modalTitle">Add Student</div>
+    <div class="modal-body">
+      <input type="hidden" id="f_id" />
+      <div class="field">
+        <label>Student Photo</label>
+        <input id="f_photo" type="file" accept="image/*" />
+        <img id="f_photo_preview" src="" alt="" style="display:none;margin-top:8px;max-width:90px;border-radius:4px;border:1px solid var(--line);" />
+      </div>
+      <div class="field">
+        <label>Full Name</label>
+        <input id="f_name" type="text" />
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Registration Number</label>
+          <input id="f_reg" type="text" />
+        </div>
+        <div class="field">
+          <label>Date of Birth</label>
+          <input id="f_dob" type="date" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Form No.</label>
+          <input id="f_formno" type="text" />
+        </div>
+        <div class="field">
+          <label>Father's Name</label>
+          <input id="f_father" type="text" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Faculty</label>
+          <input id="f_faculty" type="text" placeholder="e.g. Faculty of Commerce and Management" />
+        </div>
+        <div class="field">
+          <label>Course Type</label>
+          <input id="f_coursetype" type="text" placeholder="e.g. Under Graduate" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Course Name</label>
+          <input id="f_course" type="text" />
+        </div>
+        <div class="field">
+          <label>Academic Year</label>
+          <input id="f_year" type="text" placeholder="e.g. 2024-25" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Gender</label>
+          <select id="f_gender">
+            <option value="">—</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <input id="f_category" type="text" placeholder="e.g. General" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Nationality</label>
+        <input id="f_nationality" type="text" placeholder="e.g. Indian" />
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Admission Status</label>
+          <select id="f_status">
+            <option>Pending</option>
+            <option>Approved</option>
+            <option>Rejected</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Admission Date</label>
+          <input id="f_admdate" type="date" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Student Email (optional)</label>
+        <input id="f_email" type="email" />
+      </div>
+      <div id="formError"></div>
     </div>
-    <div class="field">
-      <label>Full Name</label>
-      <input id="f_name" type="text" />
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label>Registration Number</label>
-        <input id="f_reg" type="text" />
-      </div>
-      <div class="field">
-        <label>Date of Birth</label>
-        <input id="f_dob" type="date" />
-      </div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label>Form No.</label>
-        <input id="f_formno" type="text" />
-      </div>
-      <div class="field">
-        <label>Father's Name</label>
-        <input id="f_father" type="text" />
-      </div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label>Faculty</label>
-        <input id="f_faculty" type="text" placeholder="e.g. Faculty of Commerce and Management" />
-      </div>
-      <div class="field">
-        <label>Course Type</label>
-        <input id="f_coursetype" type="text" placeholder="e.g. Under Graduate" />
-      </div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label>Course Name</label>
-        <input id="f_course" type="text" />
-      </div>
-      <div class="field">
-        <label>Academic Year</label>
-        <input id="f_year" type="text" placeholder="e.g. 2024-25" />
-      </div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label>Gender</label>
-        <select id="f_gender">
-          <option value="">—</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Category</label>
-        <input id="f_category" type="text" placeholder="e.g. General" />
-      </div>
-    </div>
-    <div class="field">
-      <label>Nationality</label>
-      <input id="f_nationality" type="text" placeholder="e.g. Indian" />
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label>Admission Status</label>
-        <select id="f_status">
-          <option>Pending</option>
-          <option>Approved</option>
-          <option>Rejected</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Admission Date</label>
-        <input id="f_admdate" type="date" />
-      </div>
-    </div>
-    <div class="field">
-      <label>Student Email (optional)</label>
-      <input id="f_email" type="email" />
-    </div>
-    <div id="formError"></div>
     <div class="modal-actions">
-      <button class="btn-danger" id="deleteBtn" style="display:none;">Delete</button>
+      <button class="btn-danger" id="deleteBtn" style="display:none;margin-right:auto;">Delete</button>
       <button class="btn-secondary" id="cancelBtn">Cancel</button>
-      <button class="btn-primary" id="saveBtn" style="width:auto;padding:9px 18px;">Save</button>
+      <button class="btn-primary" id="saveBtn">Save</button>
     </div>
   </div>
 </div>
@@ -299,6 +434,8 @@
   function render(list){
     const tbody = document.getElementById('tbody');
     const empty = document.getElementById('emptyState');
+    document.getElementById('countLabel').textContent =
+      allStudents.length ? `${list.length} of ${allStudents.length} students` : '';
     tbody.innerHTML = '';
     if (list.length === 0) { empty.style.display = 'block'; return; }
     empty.style.display = 'none';
@@ -309,7 +446,7 @@
         <td>${escapeHtml(s.registration_number)}</td>
         <td>${escapeHtml(s.course_name)}</td>
         <td>${escapeHtml(s.academic_year)}</td>
-        <td><span class="pill ${pillClass(s.admission_status)}">${s.admission_status}</span></td>
+        <td><span class="pill ${pillClass(s.admission_status)}">${escapeHtml(s.admission_status)}</span></td>
         <td class="row-actions"><a data-id="${s.id}" class="editLink">Edit</a></td>
       `;
       tbody.appendChild(tr);

@@ -6,229 +6,353 @@
 <title>University Portal — Admission Status</title>
 <style>
   :root{
-    --navy:#1c1410;
-    --navy-deep:#120d0a;
-    --gold:#d98a2b;
-    --gold-light:#f2b36a;
-    --paper:#faf7f0;
-    --ink:#201a14;
-    --muted:#7a7066;
+    --orange:#f58220;
+    --orange-dark:#d96a0c;
+    --orange-soft:#fff3e8;
+    --white:#ffffff;
+    --bg:#f4f5f7;
+    --ink:#23262b;
+    --muted:#6b7280;
+    --line:#e5e7eb;
     --ok:#1e7a4c;
     --pending:#a8700f;
     --bad:#b23a2f;
-    --line:#e9e2d2;
   }
   *{box-sizing:border-box;}
+  html,body{margin:0;}
   body{
-    margin:0;
     min-height:100vh;
-    font-family:"Georgia","Iowan Old Style",serif;
-    background:
-      radial-gradient(1200px 500px at 50% -10%, #3a2616, var(--navy-deep)),
-      var(--navy-deep);
+    font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);
     color:var(--ink);
     display:flex;
     flex-direction:column;
-    align-items:center;
-    padding:48px 20px 64px;
-  }
-  .brand{
-    text-align:center;
-    color:#f1ede0;
-    margin-bottom:28px;
-  }
-  .brand .mark{
-    width:52px;height:52px;border-radius:50%;
-    background:linear-gradient(135deg,var(--gold-light),var(--gold));
-    color:var(--navy-deep);
-    font-weight:700;
-    display:flex;align-items:center;justify-content:center;
-    margin:0 auto 14px;
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:15px;
-    letter-spacing:0.5px;
-  }
-  .brand h1{
-    font-size:22px;
-    margin:0 0 4px;
-    font-weight:400;
-    letter-spacing:0.3px;
-  }
-  .brand p{
-    margin:0;
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:12.5px;
-    letter-spacing:1.5px;
-    color:#d9c7b2;
   }
 
-  .card{
-    width:100%;
-    max-width:420px;
-    background:var(--paper);
-    border-radius:6px;
-    border:1px solid var(--line);
-    box-shadow:0 30px 70px rgba(0,0,0,0.45), 0 0 0 1px rgba(217,138,43,0.08);
-    overflow:hidden;
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background:var(--orange);
+    color:#fff;
+    padding:0 24px;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 2px 8px rgba(0,0,0,0.12);
   }
-  .card-head{
-    padding:24px 28px 18px;
+  .topbar .title{
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:0.3px;
+  }
+  .topbar .tag{
+    font-size:12px;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    opacity:0.92;
+  }
+
+  /* ---------- Page head strip ---------- */
+  .pagehead{
+    background:var(--white);
     border-bottom:1px solid var(--line);
   }
-  .card-head h2{
-    margin:0 0 4px;
-    font-size:19px;
-    font-weight:400;
+  .pagehead .inner{
+    max-width:960px;
+    margin:0 auto;
+    padding:18px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
   }
-  .card-head p{
+  .pagehead h1{
     margin:0;
-    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:20px;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .pagehead h1 small{
     font-size:13px;
     color:var(--muted);
-    line-height:1.5;
+    font-weight:400;
+    margin-left:8px;
   }
-  form{padding:24px 28px 8px;}
+  .crumbs{font-size:12.5px;color:var(--muted);}
+  .crumbs b{color:var(--orange-dark);font-weight:500;}
+
+  /* ---------- Layout ---------- */
+  main{
+    width:100%;
+    max-width:960px;
+    margin:0 auto;
+    padding:28px 20px 56px;
+    flex:1;
+  }
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.05);
+    overflow:hidden;
+  }
+  .card-title{
+    padding:14px 22px;
+    font-size:13.5px;
+    font-weight:700;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+    color:var(--orange-dark);
+    background:var(--orange-soft);
+    border-bottom:2px solid var(--orange);
+  }
+
+  /* ---------- Lookup form ---------- */
+  #lookupCard{max-width:520px;margin:0 auto;}
+  #lookupCard .intro{
+    padding:20px 22px 0;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.55;
+  }
+  form{padding:18px 22px 8px;}
+  .field{margin-bottom:18px;}
   label{
     display:block;
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:11.5px;
-    letter-spacing:0.6px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.4px;
     color:var(--muted);
     margin-bottom:6px;
+    text-transform:uppercase;
   }
-  .field{margin-bottom:18px;}
   input{
     width:100%;
-    padding:11px 13px;
-    border:1px solid #cfc9ba;
-    border-radius:3px;
+    padding:12px 14px;
+    border:1px solid #d1d5db;
+    border-radius:6px;
     font-size:15px;
-    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-family:inherit;
     background:#fff;
     color:var(--ink);
   }
   input:focus{
     outline:none;
-    border-color:var(--gold);
-    box-shadow:0 0 0 3px rgba(201,151,46,0.18);
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(245,130,32,0.18);
   }
-  button{
+  button.primary{
     width:100%;
     padding:13px;
-    background:linear-gradient(135deg, var(--gold-light), var(--gold));
-    color:#2a1a08;
+    background:var(--orange);
+    color:#fff;
     border:none;
-    border-radius:3px;
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:14px;
+    border-radius:6px;
+    font-family:inherit;
+    font-size:15px;
     font-weight:600;
-    letter-spacing:0.4px;
+    letter-spacing:0.3px;
     cursor:pointer;
-    margin:6px 0 24px;
-    box-shadow:0 6px 16px rgba(217,138,43,0.35);
+    margin:4px 0 22px;
+    transition:background .15s;
   }
-  button:hover{background:linear-gradient(135deg, #e8a04f, #c87c23);}
-  button:disabled{opacity:0.6;cursor:default;}
+  button.primary:hover{background:var(--orange-dark);}
+  button.primary:disabled{opacity:0.65;cursor:default;}
 
   .msg{
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:13.5px;
-    padding:12px 28px 20px;
-    line-height:1.5;
     display:none;
+    margin:0 22px 22px;
+    padding:12px 14px;
+    border-radius:6px;
+    font-size:13.5px;
+    line-height:1.5;
   }
-  .msg.error{color:var(--bad);display:block;}
+  .msg.error{
+    display:block;
+    color:var(--bad);
+    background:#fdf0ee;
+    border:1px solid #f3cfca;
+  }
 
-  .result{display:none;padding:4px 28px 28px;}
-  .result .row{
+  /* ---------- Result / profile ---------- */
+  #result{display:none;}
+  .section{padding:6px 22px 14px;}
+  .section + .card-title{border-top:1px solid var(--line);}
+
+  .course-wrap{
+    display:grid;
+    grid-template-columns:1fr 160px;
+    gap:22px;
+    align-items:start;
+  }
+  .photo-box{
+    margin-top:14px;
+    width:140px;
+    height:170px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--bg);
+    overflow:hidden;
+    justify-self:end;
+  }
+  .photo-box img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    column-gap:32px;
+  }
+  .row{
     display:flex;
     justify-content:space-between;
-    gap:16px;
-    padding:11px 0;
+    gap:14px;
+    padding:12px 0;
     border-bottom:1px solid var(--line);
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:13.5px;
+    font-size:14px;
   }
-  .result .row:last-of-type{border-bottom:none;}
-  .result .row span:first-child{color:var(--muted);}
-  .result .row span:last-child{font-weight:600;text-align:right;}
+  .row .k{color:var(--muted);flex:0 0 auto;}
+  .row .v{font-weight:600;text-align:right;word-break:break-word;}
+
   .status-pill{
     display:inline-block;
-    padding:4px 12px;
+    padding:4px 14px;
     border-radius:20px;
-    font-size:12px;
-    letter-spacing:0.3px;
+    font-size:12.5px;
+    font-weight:600;
   }
   .status-pill.approved{background:#e4f3eb;color:var(--ok);}
   .status-pill.pending{background:#fbeed9;color:var(--pending);}
   .status-pill.rejected{background:#f7e4e1;color:var(--bad);}
 
-  .contact{
-    margin-top:18px;
-    padding-top:16px;
-    border-top:1px dashed var(--line);
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:12.5px;
-    color:var(--muted);
-    line-height:1.6;
+  .result-foot{
+    padding:18px 22px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    border-top:1px solid var(--line);
+    background:#fafafa;
   }
-  .again{
-    display:block;
-    text-align:center;
-    margin-top:4px;
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    font-size:12.5px;
-    color:var(--gold);
+  .result-foot span.note{font-size:12.5px;color:var(--muted);}
+  .btn-outline{
+    background:#fff;
+    color:var(--orange-dark);
+    border:1px solid var(--orange);
+    border-radius:6px;
+    padding:10px 18px;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
     cursor:pointer;
-    text-decoration:underline;
+  }
+  .btn-outline:hover{background:var(--orange-soft);}
+
+  footer{
+    text-align:center;
+    padding:18px;
+    font-size:12px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    background:#fff;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:720px){
+    .topbar{padding:0 16px;height:56px;}
+    .topbar .title{font-size:17px;}
+    .topbar .tag{display:none;}
+    .pagehead .inner{padding:14px 16px;}
+    main{padding:20px 14px 40px;}
+    .grid{grid-template-columns:1fr;}
+    .course-wrap{grid-template-columns:1fr;}
+    .photo-box{order:-1;justify-self:center;margin-top:18px;}
   }
 </style>
 </head>
 <body>
 
-  <div class="brand">
-    <h1>University Portal</h1>
-    <p>ADMISSION STATUS CHECK</p>
-  </div>
+  <header class="topbar">
+    <div class="title">University Portal</div>
+    <div class="tag">Admission Status</div>
+  </header>
 
-  <div class="card">
-    <div class="card-head">
-      <h2>Check your admission status</h2>
-      <p>Enter the registration number and date of birth you used when applying.</p>
-    </div>
-
-    <form id="lookupForm">
-      <div class="field">
-        <label for="reg">Registration Number</label>
-        <input id="reg" type="text" placeholder="e.g. 219102014999" autocomplete="off" required />
-      </div>
-      <div class="field">
-        <label for="dob">Date of Birth</label>
-        <input id="dob" type="date" required />
-      </div>
-      <button type="submit" id="submitBtn">Check Admission Status</button>
-    </form>
-
-    <div class="msg" id="errorMsg"></div>
-
-    <div class="result" id="result">
-      <img id="r_photo" src="" alt="Student photo" style="display:none;width:84px;height:84px;object-fit:cover;border-radius:4px;border:1px solid var(--line);margin-bottom:14px;" />
-      <div class="row"><span>Name</span><span id="r_name"></span></div>
-      <div class="row"><span>Registration No.</span><span id="r_reg"></span></div>
-      <div class="row" id="row_formno"><span>Form No.</span><span id="r_formno"></span></div>
-      <div class="row" id="row_father"><span>Father's Name</span><span id="r_father"></span></div>
-      <div class="row" id="row_faculty"><span>Faculty</span><span id="r_faculty"></span></div>
-      <div class="row" id="row_coursetype"><span>Course Type</span><span id="r_coursetype"></span></div>
-      <div class="row"><span>Course</span><span id="r_course"></span></div>
-      <div class="row"><span>Academic Year</span><span id="r_year"></span></div>
-      <div class="row" id="row_gender"><span>Gender</span><span id="r_gender"></span></div>
-      <div class="row" id="row_category"><span>Category</span><span id="r_category"></span></div>
-      <div class="row" id="row_nationality"><span>Nationality</span><span id="r_nationality"></span></div>
-      <div class="row"><span>Admission Date</span><span id="r_date"></span></div>
-      <div class="row"><span>Status</span><span id="r_status"></span></div>
-      <span class="again" id="again">Check another registration number</span>
+  <div class="pagehead">
+    <div class="inner">
+      <h1>Admission Status <small>Student Lookup</small></h1>
+      <div class="crumbs">Home &nbsp;›&nbsp; <b>Admission Status</b></div>
     </div>
   </div>
+
+  <main>
+
+    <!-- Lookup -->
+    <div class="card" id="lookupCard">
+      <div class="card-title">Check your admission status</div>
+      <div class="intro">Enter the registration number and date of birth you used when applying.</div>
+
+      <form id="lookupForm">
+        <div class="field">
+          <label for="reg">Registration Number</label>
+          <input id="reg" type="text" placeholder="e.g. 219102014999" autocomplete="off" required />
+        </div>
+        <div class="field">
+          <label for="dob">Date of Birth</label>
+          <input id="dob" type="date" required />
+        </div>
+        <button type="submit" class="primary" id="submitBtn">Check Admission Status</button>
+      </form>
+
+      <div class="msg" id="errorMsg"></div>
+    </div>
+
+    <!-- Result -->
+    <div class="card" id="result">
+      <div class="card-title">Course / Programme Details</div>
+      <div class="section">
+        <div class="course-wrap">
+          <div>
+            <div class="row"><span class="k">Registration No.</span><span class="v" id="r_reg"></span></div>
+            <div class="row" id="row_formno"><span class="k">Form No.</span><span class="v" id="r_formno"></span></div>
+            <div class="row"><span class="k">Academic Year</span><span class="v" id="r_year"></span></div>
+            <div class="row" id="row_faculty"><span class="k">Faculty</span><span class="v" id="r_faculty"></span></div>
+            <div class="row" id="row_coursetype"><span class="k">Course Type</span><span class="v" id="r_coursetype"></span></div>
+            <div class="row"><span class="k">Course</span><span class="v" id="r_course"></span></div>
+            <div class="row"><span class="k">Admission Date</span><span class="v" id="r_date"></span></div>
+            <div class="row"><span class="k">Status</span><span class="v" id="r_status"></span></div>
+          </div>
+          <div class="photo-box" id="photoBox" style="display:none;">
+            <img id="r_photo" src="" alt="Student photo" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title">Personal Details</div>
+      <div class="section">
+        <div class="grid">
+          <div class="row"><span class="k">Name</span><span class="v" id="r_name"></span></div>
+          <div class="row" id="row_father"><span class="k">Father's Name</span><span class="v" id="r_father"></span></div>
+          <div class="row" id="row_gender"><span class="k">Gender</span><span class="v" id="r_gender"></span></div>
+          <div class="row" id="row_category"><span class="k">Category</span><span class="v" id="r_category"></span></div>
+          <div class="row"><span class="k">Date of Birth</span><span class="v" id="r_dob"></span></div>
+          <div class="row" id="row_nationality"><span class="k">Nationality</span><span class="v" id="r_nationality"></span></div>
+        </div>
+      </div>
+
+      <div class="result-foot">
+        <span class="note">For any correction, please contact the Admissions Office.</span>
+        <button type="button" class="btn-outline" id="again">Check another registration number</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>© University Portal. All rights reserved.</footer>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
@@ -240,6 +364,7 @@
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  const lookupCard = document.getElementById('lookupCard');
   const form = document.getElementById('lookupForm');
   const submitBtn = document.getElementById('submitBtn');
   const errorMsg = document.getElementById('errorMsg');
@@ -249,7 +374,7 @@
     errorMsg.textContent = text;
     errorMsg.classList.add('error');
     resultEl.style.display = 'none';
-    form.style.display = 'block';
+    lookupCard.style.display = 'block';
   }
 
   function setOptionalRow(rowId, spanId, value){
@@ -300,17 +425,19 @@
 
       const r = data[0];
       const photoEl = document.getElementById('r_photo');
+      const photoBox = document.getElementById('photoBox');
       if (r.photo_url) {
         photoEl.src = r.photo_url;
-        photoEl.style.display = 'block';
+        photoBox.style.display = 'block';
       } else {
-        photoEl.style.display = 'none';
+        photoBox.style.display = 'none';
       }
       document.getElementById('r_name').textContent = r.full_name;
       document.getElementById('r_reg').textContent = r.registration_number;
       document.getElementById('r_course').textContent = r.course_name;
       document.getElementById('r_year').textContent = r.academic_year;
       document.getElementById('r_date').textContent = r.admission_date || '—';
+      document.getElementById('r_dob').textContent = dob;
 
       // Optional fields: only show the row if the admin filled that field in
       setOptionalRow('row_formno', 'r_formno', r.form_no);
@@ -328,8 +455,9 @@
       statusCell.innerHTML = '';
       statusCell.appendChild(pill);
 
-      form.style.display = 'none';
+      lookupCard.style.display = 'none';
       resultEl.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       showError('Something went wrong. Please try again in a moment.');
     } finally {
@@ -340,7 +468,7 @@
 
   document.getElementById('again').addEventListener('click', () => {
     resultEl.style.display = 'none';
-    form.style.display = 'block';
+    lookupCard.style.display = 'block';
     form.reset();
   });
 </script>
