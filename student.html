@@ -316,13 +316,13 @@
       <div class="card-title">Course / Programme Details</div>
       <div class="section">
         <div class="course-wrap">
-          <div>
-            <div class="row"><span class="k">Registration No.</span><span class="v" id="r_reg"></span></div>
+          <div class="grid">
             <div class="row" id="row_formno"><span class="k">Form No.</span><span class="v" id="r_formno"></span></div>
-            <div class="row"><span class="k">Academic Year</span><span class="v" id="r_year"></span></div>
+            <div class="row"><span class="k">Admission Year</span><span class="v" id="r_year"></span></div>
+            <div class="row"><span class="k">Registration No.</span><span class="v" id="r_reg"></span></div>
             <div class="row" id="row_faculty"><span class="k">Faculty</span><span class="v" id="r_faculty"></span></div>
             <div class="row" id="row_coursetype"><span class="k">Course Type</span><span class="v" id="r_coursetype"></span></div>
-            <div class="row"><span class="k">Course</span><span class="v" id="r_course"></span></div>
+            <div class="row"><span class="k">Course Name</span><span class="v" id="r_course"></span></div>
             <div class="row"><span class="k">Admission Date</span><span class="v" id="r_date"></span></div>
             <div class="row"><span class="k">Status</span><span class="v" id="r_status"></span></div>
           </div>
@@ -379,12 +379,8 @@
 
   function setOptionalRow(rowId, spanId, value){
     const row = document.getElementById(rowId);
-    if (value) {
-      document.getElementById(spanId).textContent = value;
-      row.style.display = 'flex';
-    } else {
-      row.style.display = 'none';
-    }
+    document.getElementById(spanId).textContent = value || '—';
+    row.style.display = 'flex';
   }
 
   function statusClass(status){
@@ -439,7 +435,7 @@
       document.getElementById('r_date').textContent = r.admission_date || '—';
       document.getElementById('r_dob').textContent = dob;
 
-      // Optional fields: only show the row if the admin filled that field in
+      // All fields are always shown; empty ones display "—"
       setOptionalRow('row_formno', 'r_formno', r.form_no);
       setOptionalRow('row_father', 'r_father', r.fathers_name);
       setOptionalRow('row_faculty', 'r_faculty', r.faculty);
